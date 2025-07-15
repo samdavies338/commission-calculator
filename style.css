@@ -1,0 +1,89 @@
+body {
+  font-family: 'Open Sans', Arial, sans-serif;
+  background-color: #ffffff;
+  color: #221734;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+h1 {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 28px;
+  text-align: center;
+  color: #EA5C48;
+  margin-bottom: 6px;
+}
+
+.subnote {
+  text-align: center;
+  font-size: 14px;
+  color: #221734;
+  margin-bottom: 24px;
+}
+
+label {
+  font-weight: bold;
+  color: #4022C0;
+  display: block;
+  margin-top: 16px;
+}
+
+input[type="number"], select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.highlight {
+  background-color: #ffffcc;
+  padding: 2px 4px;
+}
+
+.breakdown {
+  display: none;
+  margin-top: 20px;
+}
+
+fieldset {
+  border: none;
+  margin-bottom: 16px;
+}
+
+legend {
+  font-weight: bold;
+  color: #4022C0;
+  margin-bottom: 8px;
+}
+
+.styled-button {
+  display: inline-block;
+  background-color: #4022C0;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 12px;
+}
+
+.styled-button:hover {
+  background-color: #5a3de3;
+}
+
+#whySection {
+  margin-top: 24px;
+}
+
+#whyExplanation {
+  margin-top: 12px;
+}
