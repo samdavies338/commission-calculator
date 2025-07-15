@@ -65,6 +65,7 @@ legend {
 
 .form-container {
   display: grid;
+
   grid-template-columns: 380px 1fr;
   grid-gap: 40px;
   align-items: start;
