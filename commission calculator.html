@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Situ Commission Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      background-color: #ffffff;
+      color: #221734;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 30px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 28px;
+      text-align: center;
+      color: #EA5C48;
+      margin-bottom: 6px;
+    }
+
+    .subnote {
+      text-align: center;
+      font-size: 14px;
+      color: #221734;
+      margin-bottom: 24px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #4022C0;
+      display: block;
+      margin-top: 16px;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    .highlight {
+      background-color: #ffffcc;
+      padding: 2px 4px;
+    }
+
+    .breakdown {
+      display: none;
+      margin-top: 20px;
+    }
+
+    fieldset {
+      border: none;
+      margin-bottom: 16px;
+    }
+
+    legend {
+      font-weight: bold;
+      color: #4022C0;
+      margin-bottom: 8px;
+    }
+
+    .styled-button {
+      display: inline-block;
+      background-color: #4022C0;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .styled-button:hover {
+      background-color: #5a3de3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Situ Commission Calculator</h1>
+
+  <fieldset onchange="calculate()">
+    <legend>1. What are you trying to do?</legend>
+    <label><input type="radio" name="action" value="add" checked> Add Commission</label>
+    <label><input type="radio" name="action" value="remove"> Remove Commission</label>
+  </fieldset>
+
+  <fieldset onchange="toggleVATQuestion(); calculate();">
+    <legend>2. What type of supplier is this?</legend>
+    <label><input type="radio" name="supplier" value="uk" checked> UK</label>
+    <label><input type="radio" name="supplier" value="foreign"> Foreign</label>
+  </fieldset>
+
+  <fieldset id="ukVATFieldset" onchange="calculate()">
+    <legend>3. Is the UK supplier VAT-registered?</legend>
+    <label><input type="radio" name="vatRegistered" value="yes" checked> Yes</label>
+    <label><input type="radio" name="vatRegistered" value="no"> No</label>
+  </fieldset>
+
+  <p id="calculatorNote" class="subnote">
+    Logic will be determined based on your selections.
+  </p>
+
+  <label id="rateLabel" for="netRate">Rate (£):</label>
+  <input type="number" id="netRate" value="100" step="0.01" oninput="calculate()">
+
+  <label for="commission">Commission Rate (%):</label>
+  <input type="number" id="commission" value="15" step="0.01" oninput="calculate()">
+
+  <h3>Headline Result:</h3>
+  <p><strong id="headlineLabel">Client Rate:</strong> <span class="highlight">£<span id="clientRate">0.00</span></span></p>
+
+  <button class="styled-button" onclick="toggleBreakdown()" style="margin-bottom: 12px;">Show Full Breakdown</button>
+
+  <div class="breakdown" id="breakdownSection">
+    <h3>Detailed Breakdown:</h3>
+    <p><strong>Situ Commission:</strong> £<span id="commissionValue">0.00</span></p>
+    <p><strong>VAT on Commission (20%):</strong> £<span id="vatValue">0.00</span></p>
+    <p><strong>Total Deductions:</strong> £<span id="totalDeductions">0.00</span></p>
+    <p><strong>Amount Paid to Supplier:</strong> £<span id="paidToSupplier">0.00</span></p>
+    <p><strong>Supplier VAT Claim:</strong> £<span id="supplierVAT">0.00</span></p>
+    <p><strong>Total Received by Supplier:</strong> <span class="highlight">£<span id="supplierTotal">0.00</span></span></p>
+  </div>
+
+  <details id="whySection" style="margin-top: 24px;">
+    <summary><strong>Show me why this is the client rate</strong></summary>
+    <div id="whyExplanation" style="margin-top: 12px;"></div>
+  </details>
+
+  <script>
+    function calculate() {
+      const action = document.querySelector('input[name="action"]:checked').value;
+      const supplier = document.querySelector('input[name="supplier"]:checked').value;
+      const vatRegistered = document.querySelector('input[name="vatRegistered"]:checked')?.value || 'no';
+      const rate = parseFloat(document.getElementById('netRate').value);
+      const commissionPercent = parseFloat(document.getElementById('commission').value);
+      const commissionRate = commissionPercent / 100;
+      const vatRate = 0.2;
+
+      let clientRate = 0;
+      let commissionValue = 0;
+      let vatValue = 0;
+      let totalDeductions = 0;
+      let paidToSupplier = 0;
+      let supplierVAT = 0;
+      let supplierTotal = 0;
+      let explanation = "";
+
+      if (action === "add") {
+        if (supplier === "uk" && vatRegistered === "no") {
+          clientRate = rate / (1 - (commissionRate * (1 + vatRate)));
+          commissionValue = clientRate * commissionRate;
+          vatValue = commissionValue * vatRate;
+        } else {
+          clientRate = rate / (1 - commissionRate);
+          commissionValue = clientRate * commissionRate;
+          vatValue = commissionValue * vatRate;
+        }
+
+        totalDeductions = commissionValue + vatValue;
+        paidToSupplier = clientRate - totalDeductions;
+        supplierTotal = rate;
+        supplierVAT = (supplier === "uk" && vatRegistered === "yes") ? vatValue : 0;
+
+        explanation = `You entered a supplier rate of £${rate.toFixed(2)} and a commission of ${commissionPercent}%.\n` +
+          `To ensure the supplier receives £${rate.toFixed(2)} after commission and VAT deductions, the client must be charged £${clientRate.toFixed(2)}.`;
+        document.getElementById('headlineLabel').textContent = 'Client Rate:';
+        document.getElementById('whySection').querySelector('summary').innerHTML = "<strong>Show me why this is the client rate</strong>";
+      }
+
+      if (action === "remove") {
+        clientRate = rate;
+        commissionValue = clientRate * commissionRate;
+        vatValue = commissionValue * vatRate;
+        totalDeductions = commissionValue + vatValue;
+        paidToSupplier = clientRate - totalDeductions;
+        supplierVAT = (supplier === "uk" && vatRegistered === "yes") ? vatValue : 0;
+        supplierTotal = paidToSupplier + supplierVAT;
+
+        explanation = `You entered a client rate of £${clientRate.toFixed(2)} and a commission of ${commissionPercent}%.\n` +
+          `After deducting commission and VAT, the supplier receives £${supplierTotal.toFixed(2)}.`;
+        document.getElementById('headlineLabel').textContent = 'Non-Commissionable Rate:';
+        document.getElementById('whySection').querySelector('summary').innerHTML = "<strong>Show me why this is the supplier rate</strong>";
+      }
+
+      document.getElementById('clientRate').textContent = clientRate.toFixed(2);
+      document.getElementById('commissionValue').textContent = commissionValue.toFixed(2);
+      document.getElementById('vatValue').textContent = vatValue.toFixed(2);
+      document.getElementById('totalDeductions').textContent = totalDeductions.toFixed(2);
+      document.getElementById('paidToSupplier').textContent = paidToSupplier.toFixed(2);
+      document.getElementById('supplierVAT').textContent = supplierVAT.toFixed(2);
+      document.getElementById('supplierTotal').textContent = supplierTotal.toFixed(2);
+      document.getElementById('whyExplanation').textContent = explanation;
+    }
+
+    function toggleBreakdown() {
+      const breakdown = document.getElementById("breakdownSection");
+      breakdown.style.display = breakdown.style.display === "none" ? "block" : "none";
+    }
+
+    function toggleVATQuestion() {
+      const supplierType = document.querySelector('input[name="supplier"]:checked').value;
+      const vatFieldset = document.getElementById("ukVATFieldset");
+      vatFieldset.style.display = supplierType === "uk" ? "block" : "none";
+    }
+
+    toggleVATQuestion();
+    calculate();
+  </script>
+</body>
+</html>
