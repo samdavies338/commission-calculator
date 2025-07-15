@@ -10,7 +10,9 @@ describe('calculate function', () => {
       commissionPercent: 10,
     });
     // Supplier receives 100 after deductions
-    expect(result.clientRate).toBeCloseTo(125);
+    // Client rate needs to account for commission and VAT
+    const expectedClientRate = 100 / (1 - 0.1 * (1 + 0.2));
+    expect(result.clientRate).toBeCloseTo(expectedClientRate);
     expect(result.supplierTotal).toBeCloseTo(100);
   });
 
