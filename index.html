@@ -9,53 +9,65 @@
 <body>
   <h1>Situ Commission Calculator</h1>
 
-  <fieldset onchange="updateUI()">
-    <legend>1. What are you trying to do?</legend>
-    <label><input type="radio" name="action" value="add" checked> Add Commission</label>
-    <label><input type="radio" name="action" value="remove"> Remove Commission</label>
-  </fieldset>
+  <div class="form-container">
+    <div class="left-col">
+      <fieldset onchange="updateUI()">
+        <legend>1. What are you trying to do?</legend>
+        <label><input type="radio" name="action" value="add" checked> Add Commission</label>
+        <label><input type="radio" name="action" value="remove"> Remove Commission</label>
+      </fieldset>
 
-  <fieldset onchange="toggleVATQuestion(); updateUI();">
-    <legend>2. What type of supplier is this?</legend>
-    <label><input type="radio" name="supplier" value="uk" checked> UK</label>
-    <label><input type="radio" name="supplier" value="foreign"> Foreign</label>
-  </fieldset>
+      <fieldset onchange="toggleVATQuestion(); updateUI();">
+        <legend>2. What type of supplier is this?</legend>
+        <label><input type="radio" name="supplier" value="uk" checked> UK</label>
+        <label><input type="radio" name="supplier" value="foreign"> Foreign</label>
+      </fieldset>
 
-  <fieldset id="ukVATFieldset" onchange="updateUI()">
-    <legend>3. Is the UK supplier VAT-registered?</legend>
-    <label><input type="radio" name="vatRegistered" value="yes" checked> Yes</label>
-    <label><input type="radio" name="vatRegistered" value="no"> No</label>
-  </fieldset>
+      <fieldset id="ukVATFieldset" onchange="updateUI()">
+        <legend>3. Is the UK supplier VAT-registered?</legend>
+        <label><input type="radio" name="vatRegistered" value="yes" checked> Yes</label>
+        <label><input type="radio" name="vatRegistered" value="no"> No</label>
+      </fieldset>
 
-  <p id="calculatorNote" class="subnote">
-    Logic will be determined based on your selections.
-  </p>
+      <p id="calculatorNote" class="subnote">
+        Logic will be determined based on your selections.
+      </p>
 
-  <label id="rateLabel" for="netRate">Rate (£):</label>
-  <input type="number" id="netRate" value="100" step="0.01" oninput="updateUI()">
+      <div class="input-row">
+        <div class="input-group">
+          <label id="rateLabel" for="netRate">Rate (£):</label>
+          <input type="number" id="netRate" value="100" step="0.01" oninput="updateUI()">
+        </div>
 
-  <label for="commission">Commission Rate (%):</label>
-  <input type="number" id="commission" value="15" step="0.01" oninput="updateUI()">
+        <div class="input-group">
+          <label for="commission">Commission Rate (%):</label>
+          <input type="number" id="commission" value="15" step="0.01" oninput="updateUI()">
+        </div>
+      </div>
+    </div>
 
-  <h3>Headline Result:</h3>
-  <p><strong id="headlineLabel">Client Rate:</strong> <span class="highlight">£<span id="clientRate">0.00</span></span></p>
+    <div class="right-col">
+      <h3>Headline Result:</h3>
+      <p><strong id="headlineLabel">Client Rate:</strong> <span class="highlight">£<span id="clientRate">0.00</span></span></p>
 
-  <button class="styled-button" onclick="toggleBreakdown()">Show Full Breakdown</button>
+      <button class="styled-button" onclick="toggleBreakdown()">Show Full Breakdown</button>
 
-  <div class="breakdown" id="breakdownSection">
-    <h3>Detailed Breakdown:</h3>
-    <p><strong>Situ Commission:</strong> £<span id="commissionValue">0.00</span></p>
-    <p><strong>VAT on Commission (20%):</strong> £<span id="vatValue">0.00</span></p>
-    <p><strong>Total Deductions:</strong> £<span id="totalDeductions">0.00</span></p>
-    <p><strong>Amount Paid to Supplier:</strong> £<span id="paidToSupplier">0.00</span></p>
-    <p><strong>Supplier VAT Claim:</strong> £<span id="supplierVAT">0.00</span></p>
-    <p><strong>Total Received by Supplier:</strong> <span class="highlight">£<span id="supplierTotal">0.00</span></span></p>
+      <div class="breakdown" id="breakdownSection">
+        <h3>Detailed Breakdown:</h3>
+        <p><strong>Situ Commission:</strong> £<span id="commissionValue">0.00</span></p>
+        <p><strong>VAT on Commission (20%):</strong> £<span id="vatValue">0.00</span></p>
+        <p><strong>Total Deductions:</strong> £<span id="totalDeductions">0.00</span></p>
+        <p><strong>Amount Paid to Supplier:</strong> £<span id="paidToSupplier">0.00</span></p>
+        <p><strong>Supplier VAT Claim:</strong> £<span id="supplierVAT">0.00</span></p>
+        <p><strong>Total Received by Supplier:</strong> <span class="highlight">£<span id="supplierTotal">0.00</span></span></p>
+      </div>
+
+      <details id="whySection">
+        <summary><strong>Show me why this is the client rate</strong></summary>
+        <div id="whyExplanation"></div>
+      </details>
+    </div>
   </div>
-
-  <details id="whySection">
-    <summary><strong>Show me why this is the client rate</strong></summary>
-    <div id="whyExplanation"></div>
-  </details>
 
   <script src="calculator.js"></script>
   <script>
