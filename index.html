@@ -206,7 +206,8 @@
 
     function toggleBreakdown() {
       const breakdown = document.getElementById("breakdownSection");
-      breakdown.style.display = breakdown.style.display === "none" ? "block" : "none";
+      const currentDisplay = window.getComputedStyle(breakdown).display;
+      breakdown.style.display = currentDisplay === "none" ? "block" : "none";
     }
 
     function toggleVATQuestion() {
