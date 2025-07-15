@@ -2,7 +2,7 @@ body {
   font-family: 'Open Sans', Arial, sans-serif;
   background-color: #ffffff;
   color: #221734;
-  max-width: 700px;
+  max-width: 1200px;
   margin: 40px auto;
   padding: 30px;
   border: 1px solid #ccc;
@@ -61,6 +61,47 @@ legend {
   font-weight: bold;
   color: #4022C0;
   margin-bottom: 8px;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  grid-gap: 40px;
+  align-items: start;
+}
+
+.left-col {
+  max-width: 380px;
+}
+
+.right-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-col h3 {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.right-col .highlight {
+  font-size: 32px;
+}
+
+.input-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.input-group {
+  flex: 1;
+}
+
+fieldset label {
+  display: inline-block;
+  margin-right: 12px;
+  margin-top: 0;
 }
 
 .styled-button {
