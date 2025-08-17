@@ -166,19 +166,13 @@ fieldset label {
   margin-bottom: 12px;
 }
 
-.styled-button:hover {
+ .styled-button:hover {
   background-color: #5a3de3;
-}
+ }
 
 #whySection {
-  margin-top: 20px;
-  width: 100%;
-  background: #f4f4ff;
-  border: 1px solid #d8d8ff;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 15px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 16px;
+  margin-bottom: 12px;
 }
 
 #whySection[open] {
@@ -186,13 +180,19 @@ fieldset label {
 }
 
 #whyExplanation {
-  margin-top: 8px;
   color: #221734;
 }
 
-#whySection {
-  margin-top: 16px;
-  margin-bottom: 12px;
+#whySection[open] > #whyExplanation {
+  margin-top: 20px;
+  background: #f4f4ff;
+  border: 1px solid #d8d8ff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 #whySection summary {
@@ -222,8 +222,4 @@ fieldset label {
 
 #whySection summary::-webkit-details-marker {
   display: none;
-}
-
-#whySection summary:hover {
-  background-color: #5a3de3;
 }
