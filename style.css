@@ -102,6 +102,8 @@ legend {
 
 .left-col {
   max-width: 500px;
+  position: relative;
+  padding-bottom: 30px;
 }
 
 .right-col {
@@ -222,4 +224,13 @@ fieldset label {
 
 #whySection summary::-webkit-details-marker {
   display: none;
+}
+
+.footer-note {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 12px;
+  color: #777;
+  font-style: italic;
 }
