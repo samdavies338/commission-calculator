@@ -5,12 +5,16 @@
   <title>Situ Commission Calculator</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
 <body>
+  <div class="header-row">
+  <img src="assets/Situ logo_RGB _with strapline_Coral.png" alt="Situ Logo" class="logo">
   <h1>Situ Commission Calculator</h1>
+</div>
 
   <div class="form-container">
-    <div class="left-col">
+    <div class="left-col panel">
       <fieldset onchange="updateUI()">
         <legend>1. What are you trying to do?</legend>
         <label><input type="radio" name="action" value="add" checked> Add Commission</label>
@@ -20,7 +24,7 @@
       <fieldset onchange="toggleVATQuestion(); updateUI();">
         <legend>2. What type of supplier is this?</legend>
         <label><input type="radio" name="supplier" value="uk" checked> UK</label>
-        <label><input type="radio" name="supplier" value="foreign"> Foreign</label>
+        <label><input type="radio" name="supplier" value="International"> International</label>
       </fieldset>
 
       <fieldset id="ukVATFieldset" onchange="updateUI()">
@@ -42,10 +46,8 @@
       </div>
     </div>
 
-    <div class="right-col">
-      <h3>Headline Result:</h3>
-      <p><strong id="headlineLabel">Client Rate:</strong> <span class="highlight">£<span id="clientRate">0.00</span></span></p>
-
+    <div class="right-col panel">
+      <h2><strong>£<span id="headlineRate">0.00</span></strong></h2>
       <button class="styled-button" onclick="toggleBreakdown()">Show Full Breakdown</button>
 
       <div class="breakdown" id="breakdownSection">
@@ -55,13 +57,14 @@
         <p><strong>Total Deductions:</strong> £<span id="totalDeductions">0.00</span></p>
         <p><strong>Amount Paid to Supplier:</strong> £<span id="paidToSupplier">0.00</span></p>
         <p><strong>Supplier VAT Claim:</strong> £<span id="supplierVAT">0.00</span></p>
-        <p><strong>Total Received by Supplier:</strong> <span class="highlight">£<span id="supplierTotal">0.00</span></span></p>
+        <p><strong>Total Received by Supplier:</strong> £<span id="supplierTotal">0.00</span></p>
       </div>
 
-      <details id="whySection">
+      <details id="whySection" >
         <summary><strong>Show me why this is the client rate</strong></summary>
         <div id="whyExplanation"></div>
       </details>
+      
     </div>
   </div>
 
@@ -75,14 +78,14 @@
       const commissionPercent = parseFloat(document.getElementById('commission').value);
       const result = calculate({ action, supplier, vatRegistered, rate, commissionPercent });
       if (action === 'add') {
-        document.getElementById('headlineLabel').textContent = 'Client Rate:';
+       // document.getElementById('headlineLabel').textContent = 'Client Rate:';
         document.getElementById('whySection').querySelector('summary').innerHTML = '<strong>Show me why this is the client rate</strong>';
       } else {
-        document.getElementById('headlineLabel').textContent = 'Non-Commissionable Rate:';
+        //document.getElementById('headlineLabel').textContent = 'Non-Commissionable Rate:';
         document.getElementById('whySection').querySelector('summary').innerHTML = '<strong>Show me why this is the supplier rate</strong>';
       }
-      document.getElementById('clientRate').textContent = result.clientRate.toFixed(2);
-      document.getElementById('commissionValue').textContent = result.commissionValue.toFixed(2);
+      document.getElementById('headlineRate').textContent = 
+      action === 'add' ? result.clientRate.toFixed(2) : result.supplierTotal.toFixed(2);      document.getElementById('commissionValue').textContent = result.commissionValue.toFixed(2);
       document.getElementById('vatValue').textContent = result.vatValue.toFixed(2);
       document.getElementById('totalDeductions').textContent = result.totalDeductions.toFixed(2);
       document.getElementById('paidToSupplier').textContent = result.paidToSupplier.toFixed(2);

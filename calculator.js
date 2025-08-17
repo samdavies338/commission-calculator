@@ -45,6 +45,10 @@ function calculate({ action, supplier, vatRegistered = 'no', rate, commissionPer
   }
 
   return {
+    action,
+    supplier,
+    vatRegistered,
+    logic: `${action}${supplier === 'uk' ? (vatRegistered === 'yes' ? 'VAT' : 'NonVAT') : 'VAT'}`,
     clientRate,
     commissionValue,
     vatValue,
