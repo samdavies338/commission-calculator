@@ -19,7 +19,7 @@ describe('calculate function', () => {
   test('remove scenario', () => {
     const result = calculate({
       action: 'remove',
-      supplier: 'foreign',
+      supplier: 'International',
       vatRegistered: 'no',
       rate: 200,
       commissionPercent: 20,
