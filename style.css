@@ -18,6 +18,15 @@ h1 {
   margin-bottom: 6px;
 }
 
+.header-row h1 {
+  margin: 0;
+  flex: 1 1 300px;       /* take remaining space but allow wrapping */
+  min-width: 0;          /* permit shrinking/wrapping inside flex */
+  white-space: normal;
+  word-break: break-word;
+  font-size: clamp(1.25rem, 1rem + 2.5vw, 2rem); /* responsive sizing */
+}
+
 h2 {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 50px;
@@ -29,14 +38,21 @@ h2 {
 .header-row {
   display: flex;
   align-items: center;
-  gap: 30rem; /* space between logo and header */
+  gap: 1rem;              /* tighter, responsive spacing */
   margin-bottom: 1rem;
+  flex-wrap: wrap;        /* allow logo and header to wrap on small screens */
 }
 
 .logo {
   height: 100px; /* adjust size as needed */
   width: auto;
   vertical-align: middle;
+}
+
+.header-row .logo {
+  max-width: 160px;
+  height: auto;
+  flex: 0 0 auto;        /* keep logo from shrinking too much */
 }
 
 .subnote {
@@ -111,6 +127,37 @@ legend {
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+@media (max-width: 800px) {
+  .form-container {
+    grid-template-columns: 1fr; /* stack left and right columns */
+  }
+  .right-col {
+    width: 100%;
+    margin-top: 20px;
+    align-items: stretch;            /* let children take full width */
+    padding: 0 16px;                /* keep panel away from edges */
+  }
+  .right-col .panel, .right-col.panel {
+    width: 100%;
+    max-width: 550px;               /* match left form panel visual width */
+    margin: 0 auto;                 /* centre the panel */
+    box-sizing: border-box;         /* ensure padding doesn't overflow */
+  }
+  .right-col .styled-button {
+    width: 100%;                    /* buttons span panel width */
+  }
+  .right-col .highlight {
+    font-size: clamp(2.2rem, 8vw, 4rem); /* prevent overflow of big price */
+  }
+  /* Match panel width for breakdown & why sections on small screens */
+  .right-col .breakdown,
+  .right-col #whySection[open] > #whyExplanation {
+    width: 100%;
+    max-width: 550px;     /* align with .right-col .panel */
+    margin: 0 auto;       /* centre within column */
+  }
 }
 
 .right-col h3 {
@@ -233,4 +280,12 @@ fieldset label {
   font-size: 12px;
   color: #d1d1d1;
   font-style: italic;
+}
+
+@media (max-width: 600px) {
+  .header-row h1 {
+    order: 2;            /* move title below logo */
+    width: 100%;
+    text-align: center;  /* keep consistent with design */
+  }
 }

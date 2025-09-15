@@ -6,6 +6,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="assets/favicon.png">
+  <style>
+    /* Make the header responsive so the title doesn't get squished */
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap; /* allow logo and title to move to two lines on small screens */
+    }
+    .header-row .logo {
+      max-width: 160px;
+      height: auto;
+      flex: 0 0 auto;
+    }
+    .header-row h1 {
+      margin: 0;
+      flex: 1 1 300px; /* allow the title to take remaining space but wrap when needed */
+      min-width: 0;     /* permit flex item to shrink/wrap instead of overflowing */
+      white-space: normal;
+      word-break: break-word;
+      font-size: clamp(1.25rem, 1rem + 2.5vw, 2rem); /* scale smoothly with viewport */
+    }
+    @media (max-width: 600px) {
+      .header-row h1 {
+        order: 2;           /* drop below logo on very small screens */
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="header-row">
